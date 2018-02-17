@@ -19,10 +19,10 @@ var userSchema=db.Schema({
 	isActive:{type:Boolean,default:true},
 	modifyDate:{type:Date,default:Date.Now},
 	mobileNumber:{type:Number,required:[true,"Mobile number cannot be Empty"],min:[999999999+1,"Please Enter Valid Mobile Number"]},
-	gender:{type:String,required:[true,"Gender cannot be empty"],enum:{values:["male","female"],message:"It's not Valid Gender"}},
+	gender:{type:String,required:[true,"Gender cannot be empty"],enum:{values:["Male","Female"],message:"It's not Valid Gender"}},
 	dateOfBirth:{type:Date,required:[true,"Date of birth cannot be empty"]},
 	language:[{type:String}],
-	role:{type:String,required:[true,"Role Cannot be empty"],enum:{values:["admin","normal"],message:"'{VALUE}' is not valid Value for User Role"}},
+	role:{type:String,required:[true,"Role Cannot be empty"],enum:{values:["Admin","Normal"],message:"'{VALUE}' is not valid Value for User Role"}},
 	address:{
 			city:{type:String,required:[true,"City cannot be empty"],match:[/^[a-zA-Z]+$/,"Please Enter Valid City Name"]},
 			state:{type:String,required:[true,"State cannot be empty"],match:[/^[a-zA-Z]+$/,"Please Enter Valid State Name"]}

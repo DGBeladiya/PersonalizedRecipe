@@ -10,6 +10,7 @@
     "express-session": "^1.15.3",
     "mongoose": "^4.11.9",
     "nodemon": "^1.11.0",
+    
     "pug": "^2.0.0-rc.2"
   },
   "devDependencies": {},

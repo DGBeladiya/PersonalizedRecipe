@@ -5,7 +5,7 @@ app.config(function($routeProvider) {
 	.when("/",{})
 	.when("/1",{templateUrl:"pages/1.html"})
 	.when("/2",{templateUrl:"pages/2.html"})
-	.when("/dashboard",{templateUrl:"index.html"})
+	.when("/dashboard",{templateUrl:"ind1ex.html"})
 	.when("/AUIngredients",{templateUrl:"pages/Ingredients/AUIngredients.html"})
 	.when("/User",{templateUrl:"pages/User/User.html"});
 });

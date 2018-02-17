@@ -1,132 +1,157 @@
 <section class="content" ng-controller="userController">
+    
     <div class="container-fluid">
+
+
 
         <!-- Vertical Layout | With Floating Label -->
         <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>
-                            Manage User
-                            <small></small>
-                        </h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="javascript:void(0);">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">Something else here</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body">
-                        <form>
-                            <div class="alert alert-success alert-dismissible" role="alert" ng-show="successMsg">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                Data Saved!
-                            </div>
-                            <div class="alert alert-danger alert-dismissible" ng-show="errorMsg">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                Please check the errors
-                            </div>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="name" ng-model="ingredient.name" class="form-control">
-                                    <label class="form-label">Ingredeint Name</label>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Manage User
+                                <small></small>
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li>
+                                            <a href="javascript:void(0);">Action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Something else here</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <form class="">
+                                <div class="alert alert-success alert-dismissible ng-hide" role="alert" ng-show="successMsg">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    Data Saved!
                                 </div>
-                                <label id="name-error" class="error" for="name">{{errors.name}}</label>
-                            </div>
-
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="keywords" ng-model="keyword" class="form-control">
-                                    <label class="form-label">Keywords</label>
+                                
+                                <div class="form-group form-float">
+                                    <div class="form-line focused">
+                                        <input type="text" id="name" ng-model="user.name" class="form-control">
+                                        <label class="form-label">UserName</label>
+                                    </div>
+                                    <label id="name-error" class="error" for="name"></label>
                                 </div>
-                                <label id="name-error" class="error" for="keywords">{{errors.keywords}}</label>
-                                <br/>
-                                <button type="button" class="btn  btn-xs btn-danger" ng-click="addKeyword()">
-                                    <i class="material-icons small">add</i>
-                                </button>
-
-                            </div>
-                            <div class="body table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Keyword</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="keyword in keywords">
-                                            <td scope="row">{{$index+1}}</td>
-                                            <td>
-                                                {{keyword}}
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeKeyword($index)">
-                                                    <i class="material-icons small">delete</i>
-                                                </button>
-                                            </td>
-
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="weight" class="form-control" ng-model="ingredient.weight">
-                                    <label class="form-label">Weight</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line focused">
+                                        <input type="password" id="password" ng-model="user.password" class="form-control">
+                                        <label class="form-label">Password</label>
+                                    </div>
+                                    <label id="name-error" class="error" for="name"></label>
                                 </div>
-                                <label id="name-error" class="error" for="name">{{errors.weight}}</label>
-
-                            </div>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="price" class="form-control" ng-model="ingredient.price">
-                                    <label class="form-label">Price</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="password" id="confirmPassword" ng-model="confirmPassword" class="form-control">
+                                        <label class="form-label">ConfirmPassword</label>
+                                    </div>
                                 </div>
-                                <label id="name-error" class="error" for="name">{{errors.price}}</label>
-
-                            </div>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="priceLocation" class="form-control" ng-model="ingredient.priceLocation">
-                                    <label class="form-label">Price Location</label>
+    
+                                <div class="form-group form-float">
+                                    <div class="form-line focused">
+                                        <input type="email" id="email" class="form-control " ng-model="user.email">
+                                        <label class="form-label">Email</label>
+                                    </div>
+                                    <label id="name-error" class="error" for="name"></label>
+    
                                 </div>
-                                <label id="name-error" class="error" for="name">{{errors.priceLocation}}</label>
-
-                            </div>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="file" id="image" file-model="image" class="form-control">
+                                <div class="form-group form-float">
+                                    <div class="form-line focused">
+                                        <input type="text" id="mobileNumber" class="form-control " ng-model="user.mobileNumber">
+                                        <label class="form-label">Mobile Number</label>
+                                    </div>
+                                    <label id="name-error" class="error " for="name"></label>
                                 </div>
-                                <label id="name-error" class="error" for="name">{{errors.image}}</label>
-                            </div>
-                            <br>
-                            <button type="button" ng-click="createIngredient()" ng-hide="mode" class="btn btn-primary m-t-15 waves-effect "><i class="material-icons font-12">library_add</i> ADD</button>
-                            <button type="button" ng-show="mode" class="btn btn-info m-t-15 waves-effect" ng-click="updateIngredient()"><i class="material-icons small">update</i>UPDATE</button>
-                        </form>
+                                <input type="checkbox" id="isActive" ng-model="user.isActive" class="filled-in chk-col-red ">
+                                <label for="isActive">isActive</label>
+                                <br>
+                                <br>
+                                <div class="form-group form-float">
+                                    <div class="">
+                                        <label class="form-label">Gender: </label>
+                                        <input name="gender" type="radio" id="Male" value="Male" ng-model="user.gender" class="with-gap radio-col-red ">
+                                        <label for="Male">Male</label>
+                                        <input name="gender" type="radio" id="Female" value="Female" ng-model="user.gender" class="with-gap radio-col-red ">
+                                        <label for="Female">Female</label>
+                                    </div>
+                                    <label id="name-error" class="error" for="name"></label>
+                                </div>
+                                <br>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" id="Language" ng-model="language" class="form-control ">
+                                        <label class="form-label">Language</label>
+                                    </div>
+                                    <br>
+                                    <button type="button" class="btn  btn-xs btn-danger" ng-click="addLanguage()">
+                                        <i class="material-icons small">add</i>
+                                    </button>
+    
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Language</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ngRepeat: x in user.language -->
+    
+                                        </tbody>
+                                    </table>
+    
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="">
+                                        <label class="form-label">Role: </label>
+                                        <input name="role" type="radio" id="Admin" value="Admin" ng-model="user.role" class="with-gap radio-col-red " ng-checkd="true">
+                                        <label for="Admin">Admin</label>
+                                        <input name="role" type="radio" id="Normal" value="Normal" ng-model="user.role" class="with-gap radio-col-red ">
+                                        <label for="Normal">Normal</label>
+                                    </div>
+                                    <label id="name-error" class="error " for="name"></label>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line focused">
+                                        <input type="text" id="City" class="form-control " ng-model="user.address.city">
+                                        <label class="form-label">City</label>
+                                    </div>
+                                    <label id="name-error" class="error " for="name"></label>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line focused">
+                                        <input type="text" id="State" class="form-control " ng-model="user.address.state">
+                                        <label class="form-label">State</label>
+                                    </div>
+                                    <label id="name-error" class="error" for="name"></label>
+                                </div>
+                                <button type="button" ng-click="createUser()" ng-hide="mode" class="btn btn-primary m-t-15 waves-effect ">
+                                    <i class="material-icons font-12">library_add</i> ADD</button>
+                                <button type="button" ng-show="mode" class="btn btn-info m-t-15 waves-effect ng-hide" ng-click="updateUser()">
+                                    <i class="material-icons small">update</i>UPDATE</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
     </div>
     <!-- Exportable Table -->
@@ -159,36 +184,40 @@
                 <div class="body">
                     <div class="table-responsive">
                         <!-- dt-options="vm.dtOptions" dt-instance="vm.dtInstance"-->
-                        <table ng-if="ingredientList.length>0" datatable dt-options="vm.dtOptions" dt-instance="vm.dtInstance" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <table ng-if="userList.length>0" datatable dt-options="vm.dtOptions" dt-instance="vm.dtInstance" class="table table-bordered table-striped table-hover dataTable js-exportable">
                             <thead>
                                 <tr>
-                                    <th>Ingredient Name</th>
-                                    <th>Keywords</th>
-                                    <th>Image</th>
-                                    <th>Price</th>
-                                    <th>Price Location</th>
-                                    <th>Weight</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile Number</th>
+                                    <th>isActive</th>
+                                    <th>Role</th>
+                                    <th>Language</th>
+                                    <th>City,State</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Ingredient Name</th>
-                                    <th>Keywords</th>
-                                    <th>Image</th>
-                                    <th>Price</th>
-                                    <th>Price Location</th>
-                                    <th>Weight</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile Number</th>
+                                        <th>isActive</th>
+                                        <th>Role</th>
+                                        <th>Language</th>
+                                        <th>City,State</th>
                                     <td>Action</td>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr ng-repeat="x in ingredientList">
+                                <tr ng-repeat="x in userList">
                                     <td>{{x.name}}</td>
-                                    <td>{{x.keywords.toString()}}</td>
-                                    <td>
-                                        <img ng-src="{{x.image}}" width="50px" height="50px" />
-                                    </td>
+                                    <td>{{x.email}}</td>
+                                    <td>{{x.mobileNumber}}</td>
+                                    <td>{{x.isActive}}</td>
+                                    <td>{{x.role}}</td>
+                                    <td>{{x.language.toString()}}</td>
+                                   
                                     <td>{{x.price}}</td>
                                     <td>{{x.priceLocation}}</td>
                                     <td>{{x.weight}}</td>
@@ -196,7 +225,7 @@
                                         <button type="button" class="btn  btn-xs btn-warning  waves-effect" ng-click="loadUpdateData(x)">
                                             <i class="material-icons small">mode_edit</i>
                                         </button>
-                                        <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeIngredient(x)">
+                                        <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeUser(x)">
                                             <i class="material-icons small">delete</i>
                                         </button>
 

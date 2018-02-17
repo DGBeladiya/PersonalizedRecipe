@@ -4,6 +4,7 @@ function Response(){
 	this.errors={};
 	this.successMessage="hello";
 	this.data={}
+	this.statusCode=501
 }
 var handler = require("./handler");
 module.exports={
@@ -31,6 +32,7 @@ module.exports={
 			{
 				obj.status="Valid";
 				obj.successMsg="Data Saved!"
+				obj.statusCode=201
 			}
 			handler(obj,res);
 		});
@@ -48,6 +50,7 @@ module.exports={
 			{
 				obj.status="Valid";
 				obj.data=data;
+				obj.statusCode=200
 			}
 			handler(obj,res);
 		});
@@ -65,6 +68,7 @@ module.exports={
 			else
 			{
 				obj.status="Valid";
+				obj.statusCode=200
 			}
 			handler(obj,res);
 		});
@@ -81,6 +85,7 @@ module.exports={
 					}else{
 						//console.log();
 						obj.successMessage="Data Saved!";
+						obj.statusCode=200
 					}
 					handler(obj,res);
 				});
