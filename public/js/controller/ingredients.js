@@ -90,12 +90,45 @@ angular.module("PRApp").controller("ingredientController", function ($scope,
         $scope.ingredientList = [];
         $timeout(() => { $scope.getData() }, 1000);
     }
-    $scope.updateDataLoad(ingredient)
-    {
+    $scope.loadUpdateData = (ingredient) => {
         $scope.mode = true;
         $scope.ingredient.name = ingredient.name;
         $scope.keywords = ingredient.keywords;
         $scope.ingredient.weight = ingredient.weight;
+        $scope.ingredient.price = ingredient.price;
+        $scope.ingredient.priceLocation = ingredient.priceLocation;
+        $scope.ingredient._id = ingredient._id;
+    }
+    $scope.updateIngredient = () => {
+        var _id = $scope.ingredient._id;
+        var keywords = $scope.keywords;
+        var updatedIngredient = $scope.ingredient;
+        var requestPayload = {
+            query: { "_id": _id }, newValue: {
+                name: updatedIngredient.name,
+                keywords: keywords,
+                weight: updatedIngredient.weight,
+                priceLocation: updatedIngredient.priceLocation,
+                price: updatedIngredient.price
 
+            }
+        }
+
+        ingredientService.updateIngredient(requestPayload).then(
+            (answer) => {
+                $scope.errorMsg = false;
+                $scope.successMsg = true;
+                $scope.ingredient = { name: "", weight: "", priceLocation: "", price: "" }
+                $scope.keywords = [];
+                $scope.errors = {};
+                $scope.ingredientList = [];
+                $scope.mode = false;
+                $timeout(() => { $scope.getData() }, 1000);
+            },
+            (error) => {
+                $scope.errorMsg = true;
+                $scope.successMsg = false;
+                $scope.errors = error.errors
+            });
     }
 });

@@ -121,7 +121,7 @@
                             </div>
                             <br>
                             <button type="button" ng-click="createIngredient()" ng-hide="mode" class="btn btn-primary m-t-15 waves-effect">ADD</button>
-                            <button type="button" ng-show="mode" class="btn btn-info m-t-15 waves-effect">UPDATE</button>
+                            <button type="button" ng-show="mode" class="btn btn-info m-t-15 waves-effect" ng-click="updateIngredient()">UPDATE</button>
                         </form>
                     </div>
                 </div>
@@ -186,13 +186,21 @@
                                 <tr ng-repeat="x in ingredientList">
                                     <td>{{x.name}}</td>
                                     <td>{{x.keywords.toString()}}</td>
-                                    <td><img ng-src="{{x.image}}" width="50px" height="50px"/></td>
+                                    <td>
+                                        <img ng-src="{{x.image}}" width="50px" height="50px" />
+                                    </td>
                                     <td>{{x.price}}</td>
                                     <td>{{x.priceLocation}}</td>
                                     <td>{{x.weight}}</td>
-                                   <td> <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeIngredient(x)">
-                                        <i class="material-icons small">delete</i>
-                                    </button></td>
+                                    <td>
+                                        <button type="button" class="btn  btn-xs btn-warning  waves-effect" ng-click="loadUpdateData(x)">
+                                            <i class="material-icons small">mode_edit</i>
+                                        </button>
+                                        <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeIngredient(x)">
+                                            <i class="material-icons small">delete</i>
+                                        </button>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

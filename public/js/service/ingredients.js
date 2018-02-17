@@ -46,6 +46,20 @@ angular.module("PRApp").service("ingredientService", function ($http, $q) {
                 });
             }
             return defferd.promise
+        },
+        updateIngredient:(xData)=>{
+            var defferd = $q.defer()
+            if (true) {
+                $http({
+                    method: "put", url: "/ingredient", data: xData,
+                    headers: { "Content-Type": "application/json" }
+                }).success((data) => {
+                    defferd.resolve(data);
+                }).error((error) => {
+                    defferd.reject(error);
+                });
+            }
+            return defferd.promise
         }
     }
 });

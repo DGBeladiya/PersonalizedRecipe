@@ -1,8 +1,8 @@
 var action = require("../action/ingredient");
 var bodyParser = require("body-parser");
 
-var express=require("express");
-var router=express.Router();
+var express = require("express");
+var router = express.Router();
 var jsonParser = bodyParser.json();
 router.post("/", (req, res) => {
 
@@ -18,8 +18,8 @@ router.put("/", (req, res) => {
     var query = {}
     if (req.body.query)
         query = req.body.query;
-
-    action.updateDocument(query, req.body, res);
+    
+    action.updateDocument(query, req.body.newValue, res);
 });
 router.delete("/", jsonParser, (req, res) => {
 
