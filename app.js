@@ -14,6 +14,7 @@ app.all("/", function (req, res) {
 });
 app.use("/ingredient", ingredientRouter);
 app.use("/user", userRouter)
-app.listen(4444, () => {
-    console.log("server started on port 4444");
+
+app.listen(process.env.PORT||3080,() => {
+    console.log("server started ");
 });
