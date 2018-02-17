@@ -117,7 +117,7 @@ module.exports = {
 			handler(obj, res);
 		});
 	},
-	devareDocument: function (query, res) {
+	deleteDocument: function (query, res) {
 		var obj = new Response();
 		ingredient.remove(query, function (err) {
 

@@ -21,8 +21,8 @@ router.put("/", (req, res) => {
     
     action.updateDocument(query, req.body.newValue, res);
 });
-router.devare("/", jsonParser, (req, res) => {
+router.delete("/", jsonParser, (req, res) => {
 
-    action.devareDocument(req.body, res);
+    action.deleteDocument(req.body, res);
 });
 module.exports = router;
