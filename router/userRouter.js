@@ -21,8 +21,8 @@ router.put("/", jsonParser,(req, res) => {
     
     action.updateUser(query, req.body.newValue, res);
 });
-router.delete("/", jsonParser, (req, res) => {
+router.devare("/", jsonParser, (req, res) => {
 
-    action.deleteUser(req.body, res);
+    action.devareUser(req.body, res);
 });
 module.exports = router;

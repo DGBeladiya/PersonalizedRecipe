@@ -56,7 +56,7 @@ module.exports={
 		});
 	
 	},
-	deleteUser:function(query,res)
+	devareUser:function(query,res)
 	{
 		var obj=new Response();
 		User.remove(query,function(err){

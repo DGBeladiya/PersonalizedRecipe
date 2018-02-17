@@ -1,7 +1,7 @@
 {
   "name": "recipe",
   "version": "1.0.0",
-  "description": "",
+  "description": "\"# PersonalizedRecipe\"",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.17.2",
@@ -10,13 +10,21 @@
     "express-session": "^1.15.3",
     "mongoose": "^4.11.9",
     "nodemon": "^1.11.0",
-    
     "pug": "^2.0.0-rc.2"
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Dharmik",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DGBeladiya09/PersonalizedRecipe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DGBeladiya09/PersonalizedRecipe/issues"
+  },
+  "homepage": "https://github.com/DGBeladiya09/PersonalizedRecipe#readme"
 }

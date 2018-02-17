@@ -65,7 +65,7 @@ module.exports = {
 			});
 			//Check The docuement is Valid or not
 			newIngredient.validate(function (err) {
-				let obj = new Response();
+				var obj = new Response();
 				if (err) {
 					obj.status = "Invalid"
 					obj.statusCode = 501
@@ -117,7 +117,7 @@ module.exports = {
 			handler(obj, res);
 		});
 	},
-	deleteDocument: function (query, res) {
+	devareDocument: function (query, res) {
 		var obj = new Response();
 		ingredient.remove(query, function (err) {
 
