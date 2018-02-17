@@ -1,0 +1,205 @@
+<section class="content" ng-controller="ingredientController">
+    <div class="container-fluid">
+
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Manage Ingredients
+                            <small></small>
+                        </h2>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Another action</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Something else here</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="alert alert-success alert-dismissible" role="alert" ng-show="successMsg">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                Data Saved!
+                            </div>
+                            <div class="alert alert-danger alert-dismissible" ng-show="errorMsg">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                Please check the errors
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="name" ng-model="ingredient.name" class="form-control">
+                                    <label class="form-label">Ingredeint Name</label>
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.name}}</label>
+                            </div>
+
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="keywords" ng-model="keyword" class="form-control">
+                                    <label class="form-label">Keywords</label>
+                                </div>
+                                <label id="name-error" class="error" for="keywords">{{errors.keywords}}</label>
+                                <br/>
+                                <button type="button" class="btn  btn-xs btn-danger" ng-click="addKeyword()">
+                                    <i class="material-icons small">add</i>
+                                </button>
+
+                            </div>
+                            <div class="body table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Keyword</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="keyword in keywords">
+                                            <td scope="row">{{$index+1}}</td>
+                                            <td>
+                                                {{keyword}}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeKeyword($index)">
+                                                    <i class="material-icons small">delete</i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="weight" class="form-control" ng-model="ingredient.weight">
+                                    <label class="form-label">Weight</label>
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.weight}}</label>
+
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="price" class="form-control" ng-model="ingredient.price">
+                                    <label class="form-label">Price</label>
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.price}}</label>
+
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="priceLocation" class="form-control" ng-model="ingredient.priceLocation">
+                                    <label class="form-label">Price Location</label>
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.priceLocation}}</label>
+
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="file" id="image" file-model="image" class="form-control">
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.image}}</label>
+                            </div>
+                            <br>
+                            <button type="button" ng-click="createIngredient()" ng-hide="mode" class="btn btn-primary m-t-15 waves-effect">ADD</button>
+                            <button type="button" ng-show="mode" class="btn btn-info m-t-15 waves-effect">UPDATE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Exportable Table -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Ingredient List
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:void(0);">Action</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Another action</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Something else here</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <!-- dt-options="vm.dtOptions" dt-instance="vm.dtInstance"-->
+                        <table ng-if="ingredientList.length>0" datatable dt-options="vm.dtOptions" dt-instance="vm.dtInstance" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <thead>
+                                <tr>
+                                    <th>Ingredient Name</th>
+                                    <th>Keywords</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Price Location</th>
+                                    <th>Weight</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Ingredient Name</th>
+                                    <th>Keywords</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Price Location</th>
+                                    <th>Weight</th>
+                                    <td>Action</td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="x in ingredientList">
+                                    <td>{{x.name}}</td>
+                                    <td>{{x.keywords.toString()}}</td>
+                                    <td><img ng-src="{{x.image}}" width="50px" height="50px"/></td>
+                                    <td>{{x.price}}</td>
+                                    <td>{{x.priceLocation}}</td>
+                                    <td>{{x.weight}}</td>
+                                   <td> <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeIngredient(x)">
+                                        <i class="material-icons small">delete</i>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Exportable Table -->
+</section>
