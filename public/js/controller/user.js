@@ -79,6 +79,7 @@ angular.module("PRApp").controller("userController", function ($scope,
                 $scope.ingredientList = [];
                 $timeout(() => { $scope.getData() }, 1000);
             },
+            
             (error) => {
                 $scope.errorMsg = true;
                 $scope.successMsg = false;
