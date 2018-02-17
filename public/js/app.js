@@ -6,7 +6,8 @@ app.config(function($routeProvider) {
 	.when("/1",{templateUrl:"pages/1.html"})
 	.when("/2",{templateUrl:"pages/2.html"})
 	.when("/dashboard",{templateUrl:"index.html"})
-	.when("/AUIngredients",{templateUrl:"pages/Ingredients/AUIngredients.html"});
+	.when("/AUIngredients",{templateUrl:"pages/Ingredients/AUIngredients.html"})
+	.when("/User",{templateUrl:"pages/User/User.html"});
 });
 app.directive('fileModel', ['$parse', function ($parse) {
 	return {
