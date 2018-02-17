@@ -1,8 +1,8 @@
-angular.module("PRApp").controller("ingredientController", function ($scope,
+angular.module("PRApp").controller("userController", function ($scope,
     DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder,
     ingredientService, $timeout) {
 
-    $scope.data = [{ name: "Hello" }]
+  
 
     $scope.vm = {};
     $scope.vm.dtInstance = {};
