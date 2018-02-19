@@ -26,7 +26,7 @@ module.exports={
 			if(err)
 			{
 				obj.status="Invalid";
-				obj.error=setError(err);	
+				obj.errors=setError(err);	
 			}
 			else
 			{

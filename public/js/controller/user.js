@@ -55,6 +55,12 @@ angular.module("PRApp").controller("userController", function ($scope,
     };
     $scope.getData();
     $scope.createUser = () => {
+        if($scope.confirmPassword!=$scope.user.password)
+        {
+          
+            $scope.errors.password="Password Did not Match";
+        }
+        else {
         userService.create($scope.user)
             .then(
                 (answer) => {
@@ -73,6 +79,7 @@ angular.module("PRApp").controller("userController", function ($scope,
                     $scope.successMsg = false;
                     $scope.errors = error.errors
                 });
+            }
     }
     $scope.removeUser = (ingredient) => {
         userService.removeUser({ "_id": ingredient._id });

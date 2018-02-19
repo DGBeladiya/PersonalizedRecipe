@@ -11,7 +11,7 @@
     "mongoose": "^4.11.9",
     "nodemon": "^1.11.0",
     "pug": "^2.0.0-rc.2",
-    "multer":"^1.1.0"
+    "multer": "^1.1.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/DGBeladiya09/PersonalizedRecipe/issues"
   },
-  "homepage": "https://github.com/DGBeladiya09/PersonalizedRecipe#readme"
+  "homepage": "https://github.com/DGBeladiya09/PersonalizedRecipe#readme",
+  "keywords": [
+    "TestDeployment"
+  ]
 }
