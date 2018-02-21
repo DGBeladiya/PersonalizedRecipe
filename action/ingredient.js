@@ -68,7 +68,7 @@ module.exports = {
 				var obj = new Response();
 				if (err) {
 					obj.status = "Invalid"
-					obj.statusCode = 501
+					obj.statusCode = 400
 
 					obj.errors = setError(err);
 				}
@@ -90,7 +90,7 @@ module.exports = {
 				priceLocation: data.priceLocation
 			});
 			obj.status = "Invalid"
-			obj.statusCode = 501
+			obj.statusCode = 400
 			newIngredient.validate(function (e) {
 				if (e) {
 					obj.errors = setError(e);
@@ -107,7 +107,7 @@ module.exports = {
 		ingredient.find(query, function (err, doc) {
 			if (err) {
 				obj.status = "Invalid";
-				obj.statusCode = 501;
+				obj.statusCode = 400;
 			}
 			else {
 				obj.status = "Valid";
@@ -123,7 +123,7 @@ module.exports = {
 
 			if (err) {
 				obj.status = "Invalid";
-				obj.statusCode = 501;
+				obj.statusCode = 400;
 			}
 			else {
 				obj.status = "Valid";
@@ -142,7 +142,7 @@ module.exports = {
 				if (err) {
 					obj.status = "Invalid";
 					obj.errors = setError(err)
-					obj.statusCode = 501;
+					obj.statusCode = 400;
 				} else {
 					//console.log();
 					obj.successMessage = "Data Saved!";

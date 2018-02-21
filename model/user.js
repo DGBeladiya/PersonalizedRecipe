@@ -20,7 +20,7 @@ var userSchema=db.Schema({
 	modifyDate:{type:Date,default:Date.Now},
 	mobileNumber:{type:Number,required:[true,"Mobile number cannot be Empty"],min:[999999999+1,"Please Enter Valid Mobile Number"]},
 	gender:{type:String,required:[true,"Gender cannot be empty"],enum:{values:["Male","Female"],message:"It's not Valid Gender"}},
-	dateOfBirth:{type:Date,required:[true,"Date of birth cannot be empty"]},
+	dateOfBirth:{type:Date},
 	language:[{type:String}],
 	role:{type:String,required:[true,"Role Cannot be empty"],enum:{values:["Admin","Normal"],message:"'{VALUE}' is not valid Value for User Role"}},
 	address:{

@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var express = require("express");
 var router = express.Router();
 var jsonParser = bodyParser.json();
-router.post("/", jsonParser,(req, res) => {
+router.post("/", jsonParser, (req, res) => {
 
     res.set("Content-Type", "application/json");
 
@@ -14,15 +14,21 @@ router.get("/", (req, res) => {
     res.set("Content-Type", "application/json");
     action.getDataAll({}, res);
 });
-router.put("/", jsonParser,(req, res) => {
+router.put("/", jsonParser, (req, res) => {
     var query = {}
     if (req.body.query)
         query = req.body.query;
-    
+
     action.updateUser(query, req.body.newValue, res);
+});
+router.post("/checkLogin",jsonParser, (req, res) => {
+   action.checkLogin(req,res);
 });
 router.delete("/", jsonParser, (req, res) => {
 
     action.deleteUser(req.body, res);
+});
+router.post("/getUser",(req,res)=>{
+action.getLogedUser(req,res)
 });
 module.exports = router;

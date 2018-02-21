@@ -114,7 +114,18 @@
                                         </thead>
                                         <tbody>
                                             <!-- ngRepeat: x in user.language -->
+                                            <tr ng-repeat="x in user.language">
+                                                <td scope="row">{{$index+1}}</td>
+                                                <td>
+                                                    {{x}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeLanguage($index)">
+                                                        <i class="material-icons small">delete</i>
+                                                    </button>
+                                                </td>
     
+                                            </tr>
                                         </tbody>
                                     </table>
     
@@ -218,9 +229,8 @@
                                     <td>{{x.role}}</td>
                                     <td>{{x.language.toString()}}</td>
                                    
-                                    <td>{{x.price}}</td>
-                                    <td>{{x.priceLocation}}</td>
-                                    <td>{{x.weight}}</td>
+                                    <td>{{x.address.city+","+x.address.state}}</td>
+                                   
                                     <td>
                                         <button type="button" class="btn  btn-xs btn-warning  waves-effect" ng-click="loadUpdateData(x)">
                                             <i class="material-icons small">mode_edit</i>
