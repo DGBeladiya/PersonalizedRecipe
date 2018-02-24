@@ -17,7 +17,6 @@ var userSchema=db.Schema({
 		match:[/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,"'{VALUE}' is not valid Email Address"]
 	},
 	isActive:{type:Boolean,default:true},
-	modifyDate:{type:Date,default:Date.Now},
 	mobileNumber:{type:Number,required:[true,"Mobile number cannot be Empty"],min:[999999999+1,"Please Enter Valid Mobile Number"]},
 	gender:{type:String,required:[true,"Gender cannot be empty"],enum:{values:["Male","Female"],message:"It's not Valid Gender"}},
 	dateOfBirth:{type:Date},
@@ -28,5 +27,5 @@ var userSchema=db.Schema({
 			state:{type:String,required:[true,"State cannot be empty"],match:[/^[a-zA-Z]+$/,"Please Enter Valid State Name"]}
 	}
 
-});
+}, { timestamps: true });
 module.exports=db.model("user",userSchema);
