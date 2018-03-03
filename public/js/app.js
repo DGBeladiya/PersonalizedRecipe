@@ -1,4 +1,4 @@
-var app = angular.module("PRApp", ["ngRoute", 'datatables', 'datatables.buttons']);
+var app = angular.module("PRApp", ["ngRoute", 'datatables', 'datatables.buttons','monospaced.elastic']);
 app.controller("profileController", function ($scope, fetchUser) {
 	$scope.user = {};
 	fetchUser.getUser().then((result)=>{
@@ -29,7 +29,8 @@ app.config(function ($routeProvider) {
 		.when("/2", { templateUrl: "pages/2.html" })
 		.when("/dashboard", { templateUrl: "ind1ex.html" })
 		.when("/AUIngredients", { templateUrl: "pages/Ingredients/AUIngredients.html" })
-		.when("/User", { templateUrl: "pages/User/User.html" });
+		.when("/User", { templateUrl: "pages/User/User.html" })
+		.when("/Recipe",{templateUrl:"pages/Recipe/Recipe.html"});
 });
 app.directive('fileModel', ['$parse', function ($parse) {
 	return {

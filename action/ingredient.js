@@ -15,7 +15,7 @@ var path = require("path");
 //setting up the storage option
 var storage = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, "upload/")
+		callback(null, "upload/ingredient/")
 	},
 	filename: (req, file, callback) => {
 		callback(null, "Ingredient" + '_' + Date.now() + path.extname(file.originalname))

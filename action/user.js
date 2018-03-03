@@ -89,6 +89,7 @@ module.exports = {
 		var email = req.body.email;
 		var password = req.body.password;
 		User.find({ "email": { '$regex': email+""}, "password": password }, (err, data) => {
+			console.log(data)
 			if (err) {
 			
 			//	res.send({ status: "Invalid", message: err })
@@ -99,11 +100,15 @@ module.exports = {
 				res.status(401)
 				handler({ status: "Invalid", message: "Sorry Invalid email or password","statusCode":401},res)
 			}
-			else {
+			else if(data[0].role=="Admin"){
 				res.status(200)
 			
 				req.session.userId=data[0]._id
+				req.session.role=data[0].role
 				handler({ status: "Valid", message: "Login Successfully" ,"statusCode":200},res)
+			}
+			else{
+				handler({ status: "Valid", message: "You don't have enough access contact adminstrator for access" ,"statusCode":401},res)
 			}
 		})
 	},

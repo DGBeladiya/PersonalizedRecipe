@@ -1,5 +1,3 @@
-
-
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -18,6 +16,7 @@ app.use(bodyParser.json({}))
 
 var ingredientRouter = require("./router/ingredientRouter.js");
 var userRouter = require("./router/userRouter.js");
+var recipeRouter = require("./router/recipeRouter.js");
 app.all("/", function (req, res) {
 
     if (req.session.userId) {
@@ -29,8 +28,8 @@ app.all("/", function (req, res) {
     }
 });
 app.use("/ingredient", ingredientRouter);
-app.use("/user", userRouter)
-
-app.listen(3080, () => {
+app.use("/user", userRouter);
+app.use("/recipe",recipeRouter);
+app.listen(8080, () => {
     console.log("server started ");
 });

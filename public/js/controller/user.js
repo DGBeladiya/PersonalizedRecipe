@@ -43,7 +43,7 @@ angular.module("PRApp").controller("userController", function ($scope,
     $scope.userList = [];
     $scope.errors = { name: "", password: "", email: "", role: "", gender: "", mobileNumber: "", address: { city: "", state: "" } }
     $scope.addLanguage = () => { $scope.user.language.push($scope.language); $scope.language = ""; };
-    $scope.removeLanguage = (index) => { $scope.user.language.splice(index) };
+    $scope.removeLanguage = (index) => { $scope.user.language.splice(index,1) };
     $scope.getData = () => {
         userService.getList().then(
             (result) => {

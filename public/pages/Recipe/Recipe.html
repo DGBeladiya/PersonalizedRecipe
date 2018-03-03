@@ -1,0 +1,306 @@
+<section class="content" ng-controller="recipeController">
+    <div class="container-fluid">
+
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add Recipe
+                            <small></small>
+                        </h2>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Another action</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">Something else here</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="alert alert-success alert-dismissible" role="alert" ng-show="successMsg">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                Data Saved!
+                            </div>
+                            <div class="alert alert-danger alert-dismissible" ng-show="errorMsg">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                Please check the errors
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="name" ng-model="recipe.name" class="form-control">
+                                    <label class="form-label">Recipe Name</label>
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.name}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <textarea rows="1" class="form-control msdElastic" placeholder="" ng-model="recipe.description"></textarea>
+                                    <label class="form-label">Recipe Description</label>
+                                </div>
+                                <label id="name-error" class="error">{{errors.description}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="cost" ng-model="recipe.cost" class="form-control">
+                                    <label class="form-label">Cost</label>
+                                </div>
+                                <label id="name-error" class="error" for="cost">{{errors.cost}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="time" ng-model="recipe.time" class="form-control">
+                                    <label class="form-label">Time</label>
+                                </div>
+                                <label id="name-error" class="error" for="time">{{errors.time}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="file" id="image" file-model="image" class="form-control">
+                                </div>
+                                <label id="name-error" class="error" for="name">{{errors.image}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="category" ng-model="recipe.category" class="form-control">
+                                    <label class="form-label">Category</label>
+                                </div>
+                                <label id="name-error" class="error" for="category">{{errors.category}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="noOfPerson" ng-model="recipe.noOfPerson" class="form-control">
+                                    <label class="form-label">No of Person</label>
+                                </div>
+                                <label id="name-error" class="error" for="noOfPerson">{{errors.noOfPerson}}</label>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="name" ng-model="recipe.ageCategory.min" class="form-control">
+                                    <label class="form-label">Minimum Age Categoty</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="name" ng-model="recipe.ageCategory.max" class="form-control">
+                                    <label class="form-label">Maximum Age Categoty</label>
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="ingredientName" ng-model="ingredient.name" class="form-control">
+                                    <label class="form-label">Ingredients Name</label>
+                                </div>
+                                <br/>
+                                <div class="form-line">
+                                    <input type="text" id="keywords" ng-model="ingredient.weight" class="form-control">
+                                    <label class="form-label">Ingredients Weight</label>
+                                </div>
+                                <br/>
+                                <div class="form-line">
+                                    <input type="checkbox" id="isRequired" ng-model="ingredient.isRequired" class="filled-in chk-col-red ">
+                                    <label for="isRequired">isRequired</label>
+                                </div>
+                                <br/>
+                                <button type="button" class="btn  btn-xs btn-danger" ng-click="addIngredient()">
+                                    <i class="material-icons small">add</i>
+                                </button>
+
+                            </div>
+                            <div class="body table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Wight</th>
+                                            <th>isRequired</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in ingredients">
+                                            <td scope="row">{{$index+1}}</td>
+                                            <td>
+                                                {{x.name}}
+                                            </td>
+                                            <td>
+                                                {{x.weight}}
+                                            </td>
+                                            <td>
+                                                {{x.isRequired}}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeIngredient($index)">
+                                                    <i class="material-icons small">delete</i>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <textarea id="stepDescription" ng-model="step.description" class="form-control msdElastic">
+                                   </textarea>
+                                    <label class="form-label">Step Description</label>
+                                </div>
+                                <br/>
+                                <div class="form-line">
+                                    <input type="text" id="stepTime" ng-model="step.time" class="form-control">
+                                    <label class="form-label">Step Time</label>
+                                </div>
+                                <br/>
+                                <div class="form-line">
+                                    <input type="checkbox" id="isAlarm" ng-model="step.isAlarm" class="filled-in chk-col-red ">
+                                    <label for="isAlarm">isAlarm</label>
+                                </div>
+                                <br/>
+                                <button type="button" class="btn  btn-xs btn-danger" ng-click="addStep()">
+                                    <i class="material-icons small">add</i>
+                                </button>
+
+                            </div>
+                            <div class="body table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Step</th>
+                                            <th>Description</th>
+                                            <th>Time</th>
+                                            <th>isAlarm</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in steps">
+                                            <td scope="row">{{$index+1}}</td>
+                                            <td>
+                                                {{x.description}}
+                                            </td>
+                                            <td>
+                                                {{x.time}}
+                                            </td>
+                                            <td>
+                                                {{x.isAlarm}}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeStep($index)">
+                                                    <i class="material-icons small">delete</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <button type="button" ng-click="createRecipe()" ng-hide="mode" class="btn btn-primary m-t-15 waves-effect ">
+                                <i class="material-icons font-12">library_add</i> ADD</button>
+                            <button type="button" ng-show="mode" class="btn btn-info m-t-15 waves-effect" ng-click="updateIngredient()">
+                                <i class="material-icons small">update</i>UPDATE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Exportable Table -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Ingredient List
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:void(0);">Action</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Another action</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Something else here</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <!-- dt-options="vm.dtOptions" dt-instance="vm.dtInstance"-->
+                        <table ng-if="ingredientList.length>0" datatable dt-options="vm.dtOptions" dt-instance="vm.dtInstance" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <thead>
+                                <tr>
+                                    <th>Ingredient Name</th>
+                                    <th>Keywords</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Price Location</th>
+                                    <th>Weight</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Ingredient Name</th>
+                                    <th>Keywords</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Price Location</th>
+                                    <th>Weight</th>
+                                    <td>Action</td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="x in ingredientList">
+                                    <td>{{x.name}}</td>
+                                    <td>{{x.keywords.toString()}}</td>
+                                    <td>
+                                        <img ng-src="ingredient/{{x.image}}" width="50px" height="50px" />
+                                    </td>
+                                    <td>{{x.price}}</td>
+                                    <td>{{x.priceLocation}}</td>
+                                    <td>{{x.weight}}</td>
+                                    <td>
+                                        <button type="button" class="btn  btn-xs btn-warning  waves-effect" ng-click="loadUpdateData(x)">
+                                            <i class="material-icons small">mode_edit</i>
+                                        </button>
+                                        <button type="button" class="btn  btn-xs btn-danger  waves-effect" ng-click="removeIngredient(x)">
+                                            <i class="material-icons small">delete</i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Exportable Table -->
+</section>

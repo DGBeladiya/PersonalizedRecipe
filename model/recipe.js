@@ -27,7 +27,8 @@ var recipeSchema = db.Schema({
     noOfPerson: {
         type: Number,
         required: [true, "No of Person can't be empty"],
-        match: [/^[0-9]+$/, "'{VALUE}' is not valid value"]
+        match: [/^[0-9]+$/, "'{VALUE}' is not valid value"],
+        min:[1,"No of Person should be greater then 0"]
     },
     isApproved: {
         type: Boolean,
@@ -58,7 +59,7 @@ var recipeSchema = db.Schema({
         description: { type: String },
         time: { type: String },
         isAlarm: { type: Boolean },
-        image: { type: String }
+        image: { type: String ,default:"Default.png"}
     }],
     review: [{
         rating: { type: Number, default: 0.0 },

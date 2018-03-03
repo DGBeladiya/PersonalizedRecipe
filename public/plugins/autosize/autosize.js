@@ -1,262 +1,221 @@
-/*!
-	Autosize 3.0.17
-	license: MIT
-	http://www.jacklmoore.com/autosize
-*/
-(function (global, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(['exports', 'module'], factory);
-	} else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
-		factory(exports, module);
-	} else {
-		var mod = {
-			exports: {}
-		};
-		factory(mod.exports, mod);
-		global.autosize = mod.exports;
-	}
-})(this, function (exports, module) {
-	'use strict';
+/*
+ * angular-elastic v2.5.1
+ * (c) 2014 Monospaced http://monospaced.com
+ * License: MIT
+ */
 
-	var set = typeof Set === 'function' ? new Set() : (function () {
-		var list = [];
+if (typeof module !== 'undefined' &&
+    typeof exports !== 'undefined' &&
+    module.exports === exports){
+  module.exports = 'monospaced.elastic';
+}
 
-		return {
-			has: function has(key) {
-				return Boolean(list.indexOf(key) > -1);
-			},
-			add: function add(key) {
-				list.push(key);
-			},
-			'delete': function _delete(key) {
-				list.splice(list.indexOf(key), 1);
-			} };
-	})();
+angular.module('monospaced.elastic', [])
 
-	var createEvent = function createEvent(name) {
-		return new Event(name);
-	};
-	try {
-		new Event('test');
-	} catch (e) {
-		// IE does not support `new Event()`
-		createEvent = function (name) {
-			var evt = document.createEvent('Event');
-			evt.initEvent(name, true, false);
-			return evt;
-		};
-	}
+  .constant('msdElasticConfig', {
+    append: ''
+  })
 
-	function assign(ta) {
-		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || set.has(ta)) return;
+  .directive('msdElastic', [
+    '$timeout', '$window', 'msdElasticConfig',
+    function($timeout, $window, config) {
+      'use strict';
 
-		var heightOffset = null;
-		var clientWidth = ta.clientWidth;
-		var cachedHeight = null;
+      return {
+        require: 'ngModel',
+        restrict: 'A, C',
+        link: function(scope, element, attrs, ngModel) {
 
-		function init() {
-			var style = window.getComputedStyle(ta, null);
+          // cache a reference to the DOM element
+          var ta = element[0],
+              $ta = element;
 
-			if (style.resize === 'vertical') {
-				ta.style.resize = 'none';
-			} else if (style.resize === 'both') {
-				ta.style.resize = 'horizontal';
-			}
+          // ensure the element is a textarea, and browser is capable
+          if (ta.nodeName !== 'TEXTAREA' || !$window.getComputedStyle) {
+            return;
+          }
 
-			if (style.boxSizing === 'content-box') {
-				heightOffset = -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom));
-			} else {
-				heightOffset = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
-			}
-			// Fix when a textarea is not on document body and heightOffset is Not a Number
-			if (isNaN(heightOffset)) {
-				heightOffset = 0;
-			}
+          // set these properties before measuring dimensions
+          $ta.css({
+            'overflow': 'hidden',
+            'overflow-y': 'hidden',
+            'word-wrap': 'break-word'
+          });
 
-			update();
-		}
+          // force text reflow
+          var text = ta.value;
+          ta.value = '';
+          ta.value = text;
 
-		function changeOverflow(value) {
-			{
-				// Chrome/Safari-specific fix:
-				// When the textarea y-overflow is hidden, Chrome/Safari do not reflow the text to account for the space
-				// made available by removing the scrollbar. The following forces the necessary text reflow.
-				var width = ta.style.width;
-				ta.style.width = '0px';
-				// Force reflow:
-				/* jshint ignore:start */
-				ta.offsetWidth;
-				/* jshint ignore:end */
-				ta.style.width = width;
-			}
+          var append = attrs.msdElastic ? attrs.msdElastic.replace(/\\n/g, '\n') : config.append,
+              $win = angular.element($window),
+              mirrorInitStyle = 'position: absolute; top: -999px; right: auto; bottom: auto;' +
+                                'left: 0; overflow: hidden; -webkit-box-sizing: content-box;' +
+                                '-moz-box-sizing: content-box; box-sizing: content-box;' +
+                                'min-height: 0 !important; height: 0 !important; padding: 0;' +
+                                'word-wrap: break-word; border: 0;',
+              $mirror = angular.element('<textarea aria-hidden="true" tabindex="-1" ' +
+                                        'style="' + mirrorInitStyle + '"/>').data('elastic', true),
+              mirror = $mirror[0],
+              taStyle = getComputedStyle(ta),
+              resize = taStyle.getPropertyValue('resize'),
+              borderBox = taStyle.getPropertyValue('box-sizing') === 'border-box' ||
+                          taStyle.getPropertyValue('-moz-box-sizing') === 'border-box' ||
+                          taStyle.getPropertyValue('-webkit-box-sizing') === 'border-box',
+              boxOuter = !borderBox ? {width: 0, height: 0} : {
+                            width:  parseInt(taStyle.getPropertyValue('border-right-width'), 10) +
+                                    parseInt(taStyle.getPropertyValue('padding-right'), 10) +
+                                    parseInt(taStyle.getPropertyValue('padding-left'), 10) +
+                                    parseInt(taStyle.getPropertyValue('border-left-width'), 10),
+                            height: parseInt(taStyle.getPropertyValue('border-top-width'), 10) +
+                                    parseInt(taStyle.getPropertyValue('padding-top'), 10) +
+                                    parseInt(taStyle.getPropertyValue('padding-bottom'), 10) +
+                                    parseInt(taStyle.getPropertyValue('border-bottom-width'), 10)
+                          },
+              minHeightValue = parseInt(taStyle.getPropertyValue('min-height'), 10),
+              heightValue = parseInt(taStyle.getPropertyValue('height'), 10),
+              minHeight = Math.max(minHeightValue, heightValue) - boxOuter.height,
+              maxHeight = parseInt(taStyle.getPropertyValue('max-height'), 10),
+              mirrored,
+              active,
+              copyStyle = ['font-family',
+                           'font-size',
+                           'font-weight',
+                           'font-style',
+                           'letter-spacing',
+                           'line-height',
+                           'text-transform',
+                           'word-spacing',
+                           'text-indent'];
 
-			ta.style.overflowY = value;
+          // exit if elastic already applied (or is the mirror element)
+          if ($ta.data('elastic')) {
+            return;
+          }
 
-			resize();
-		}
+          // Opera returns max-height of -1 if not set
+          maxHeight = maxHeight && maxHeight > 0 ? maxHeight : 9e4;
 
-		function getParentOverflows(el) {
-			var arr = [];
+          // append mirror to the DOM
+          if (mirror.parentNode !== document.body) {
+            angular.element(document.body).append(mirror);
+          }
 
-			while (el && el.parentNode && el.parentNode instanceof Element) {
-				if (el.parentNode.scrollTop) {
-					arr.push({
-						node: el.parentNode,
-						scrollTop: el.parentNode.scrollTop });
-				}
-				el = el.parentNode;
-			}
+          // set resize and apply elastic
+          $ta.css({
+            'resize': (resize === 'none' || resize === 'vertical') ? 'none' : 'horizontal'
+          }).data('elastic', true);
 
-			return arr;
-		}
+          /*
+           * methods
+           */
 
-		function resize() {
-			var originalHeight = ta.style.height;
-			var overflows = getParentOverflows(ta);
-			var docTop = document.documentElement && document.documentElement.scrollTop; // Needed for Mobile IE (ticket #240)
+          function initMirror() {
+            var mirrorStyle = mirrorInitStyle;
 
-			ta.style.height = 'auto';
+            mirrored = ta;
+            // copy the essential styles from the textarea to the mirror
+            taStyle = getComputedStyle(ta);
+            angular.forEach(copyStyle, function(val) {
+              mirrorStyle += val + ':' + taStyle.getPropertyValue(val) + ';';
+            });
+            mirror.setAttribute('style', mirrorStyle);
+          }
 
-			var endHeight = ta.scrollHeight + heightOffset;
+          function adjust() {
+            var taHeight,
+                taComputedStyleWidth,
+                mirrorHeight,
+                width,
+                overflow;
 
-			if (ta.scrollHeight === 0) {
-				// If the scrollHeight is 0, then the element probably has display:none or is detached from the DOM.
-				ta.style.height = originalHeight;
-				return;
-			}
+            if (mirrored !== ta) {
+              initMirror();
+            }
 
-			ta.style.height = endHeight + 'px';
+            // active flag prevents actions in function from calling adjust again
+            if (!active) {
+              active = true;
 
-			// used to check if an update is actually necessary on window.resize
-			clientWidth = ta.clientWidth;
+              mirror.value = ta.value + append; // optional whitespace to improve animation
+              mirror.style.overflowY = ta.style.overflowY;
 
-			// prevents scroll-position jumping
-			overflows.forEach(function (el) {
-				el.node.scrollTop = el.scrollTop;
-			});
+              taHeight = ta.style.height === '' ? 'auto' : parseInt(ta.style.height, 10);
 
-			if (docTop) {
-				document.documentElement.scrollTop = docTop;
-			}
-		}
+              taComputedStyleWidth = getComputedStyle(ta).getPropertyValue('width');
 
-		function update() {
-			resize();
+              // ensure getComputedStyle has returned a readable 'used value' pixel width
+              if (taComputedStyleWidth.substr(taComputedStyleWidth.length - 2, 2) === 'px') {
+                // update mirror width in case the textarea width has changed
+                width = parseInt(taComputedStyleWidth, 10) - boxOuter.width;
+                mirror.style.width = width + 'px';
+              }
 
-			var computed = window.getComputedStyle(ta, null);
-			var computedHeight = Math.round(parseFloat(computed.height));
-			var styleHeight = Math.round(parseFloat(ta.style.height));
+              mirrorHeight = mirror.scrollHeight;
 
-			// The computed height not matching the height set via resize indicates that
-			// the max-height has been exceeded, in which case the overflow should be set to visible.
-			if (computedHeight !== styleHeight) {
-				if (computed.overflowY !== 'visible') {
-					changeOverflow('visible');
-				}
-			} else {
-				// Normally keep overflow set to hidden, to avoid flash of scrollbar as the textarea expands.
-				if (computed.overflowY !== 'hidden') {
-					changeOverflow('hidden');
-				}
-			}
+              if (mirrorHeight > maxHeight) {
+                mirrorHeight = maxHeight;
+                overflow = 'scroll';
+              } else if (mirrorHeight < minHeight) {
+                mirrorHeight = minHeight;
+              }
+              mirrorHeight += boxOuter.height;
+              ta.style.overflowY = overflow || 'hidden';
 
-			if (cachedHeight !== computedHeight) {
-				cachedHeight = computedHeight;
-				var evt = createEvent('autosize:resized');
-				ta.dispatchEvent(evt);
-			}
-		}
+              if (taHeight !== mirrorHeight) {
+                scope.$emit('elastic:resize', $ta, taHeight, mirrorHeight);
+                ta.style.height = mirrorHeight + 'px';
+              }
 
-		var pageResize = function pageResize() {
-			if (ta.clientWidth !== clientWidth) {
-				update();
-			}
-		};
+              // small delay to prevent an infinite loop
+              $timeout(function() {
+                active = false;
+              }, 1, false);
 
-		var destroy = (function (style) {
-			window.removeEventListener('resize', pageResize, false);
-			ta.removeEventListener('input', update, false);
-			ta.removeEventListener('keyup', update, false);
-			ta.removeEventListener('autosize:destroy', destroy, false);
-			ta.removeEventListener('autosize:update', update, false);
-			set['delete'](ta);
+            }
+          }
 
-			Object.keys(style).forEach(function (key) {
-				ta.style[key] = style[key];
-			});
-		}).bind(ta, {
-			height: ta.style.height,
-			resize: ta.style.resize,
-			overflowY: ta.style.overflowY,
-			overflowX: ta.style.overflowX,
-			wordWrap: ta.style.wordWrap });
+          function forceAdjust() {
+            active = false;
+            adjust();
+          }
 
-		ta.addEventListener('autosize:destroy', destroy, false);
+          /*
+           * initialise
+           */
 
-		// IE9 does not fire onpropertychange or oninput for deletions,
-		// so binding to onkeyup to catch most of those events.
-		// There is no way that I know of to detect something like 'cut' in IE9.
-		if ('onpropertychange' in ta && 'oninput' in ta) {
-			ta.addEventListener('keyup', update, false);
-		}
+          // listen
+          if ('onpropertychange' in ta && 'oninput' in ta) {
+            // IE9
+            ta['oninput'] = ta.onkeyup = adjust;
+          } else {
+            ta['oninput'] = adjust;
+          }
 
-		window.addEventListener('resize', pageResize, false);
-		ta.addEventListener('input', update, false);
-		ta.addEventListener('autosize:update', update, false);
-		set.add(ta);
-		ta.style.overflowX = 'hidden';
-		ta.style.wordWrap = 'break-word';
+          $win.bind('resize', forceAdjust);
 
-		init();
-	}
+          scope.$watch(function() {
+            return ngModel.$modelValue;
+          }, function(newValue) {
+            forceAdjust();
+          });
 
-	function destroy(ta) {
-		if (!(ta && ta.nodeName && ta.nodeName === 'TEXTAREA')) return;
-		var evt = createEvent('autosize:destroy');
-		ta.dispatchEvent(evt);
-	}
+          scope.$on('elastic:adjust', function() {
+            initMirror();
+            forceAdjust();
+          });
 
-	function update(ta) {
-		if (!(ta && ta.nodeName && ta.nodeName === 'TEXTAREA')) return;
-		var evt = createEvent('autosize:update');
-		ta.dispatchEvent(evt);
-	}
+          $timeout(adjust, 0, false);
 
-	var autosize = null;
+          /*
+           * destroy
+           */
 
-	// Do nothing in Node.js environment and IE8 (or lower)
-	if (typeof window === 'undefined' || typeof window.getComputedStyle !== 'function') {
-		autosize = function (el) {
-			return el;
-		};
-		autosize.destroy = function (el) {
-			return el;
-		};
-		autosize.update = function (el) {
-			return el;
-		};
-	} else {
-		autosize = function (el, options) {
-			if (el) {
-				Array.prototype.forEach.call(el.length ? el : [el], function (x) {
-					return assign(x, options);
-				});
-			}
-			return el;
-		};
-		autosize.destroy = function (el) {
-			if (el) {
-				Array.prototype.forEach.call(el.length ? el : [el], destroy);
-			}
-			return el;
-		};
-		autosize.update = function (el) {
-			if (el) {
-				Array.prototype.forEach.call(el.length ? el : [el], update);
-			}
-			return el;
-		};
-	}
-
-	module.exports = autosize;
-});
+          scope.$on('$destroy', function() {
+            $mirror.remove();
+            $win.unbind('resize', forceAdjust);
+          });
+        }
+      };
+    }
+  ]);

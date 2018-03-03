@@ -46,7 +46,7 @@ angular.module("PRApp").controller("ingredientController", function ($scope,
     $scope.ingredientList = [];
     $scope.errors = { name: "", weight: "", image: "", priceLocation: "" }
     $scope.addKeyword = () => { $scope.keywords.push($scope.keyword); $scope.keyword = ""; };
-    $scope.removeKeyword = (index) => { $scope.keywords.splice(index) };
+    $scope.removeKeyword = (index) => { $scope.keywords.splice(index,1) };
     $scope.getData = () => {
         ingredientService.getList().then(
             (result) => {
