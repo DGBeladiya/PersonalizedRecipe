@@ -21,14 +21,17 @@ router.put("/", jsonParser, (req, res) => {
 
     action.updateUser(query, req.body.newValue, res);
 });
-router.post("/checkLogin",jsonParser, (req, res) => {
-   action.checkLogin(req,res);
+router.post("/checkLogin", jsonParser, (req, res) => {
+    action.checkLogin(req, res);
 });
 router.delete("/", jsonParser, (req, res) => {
 
     action.deleteUser(req.body, res);
 });
-router.post("/getUser",(req,res)=>{
-action.getLogedUser(req,res)
+router.get("/logout", (req, res) => {
+    action.logout(req,res)
+});
+router.post("/getUser", (req, res) => {
+    action.getLogedUser(req, res)
 });
 module.exports = router;

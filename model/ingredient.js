@@ -24,7 +24,7 @@ var ingredientSchema=db.Schema({
 		default:"Default.png",
 		set:setImage},
 	priceLocation:{type:String},
-	userID:{type:db.Schema.Types.ObjectId},
+	userId:{type:db.Schema.Types.ObjectId},
 }, { timestamps: true });
 
 function setImage(v){

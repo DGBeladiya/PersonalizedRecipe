@@ -61,7 +61,8 @@ module.exports = {
 				keywords: data.keywords.split(","),
 				weight: data.weight,
 				image: data.image,
-				priceLocation: data.priceLocation
+				priceLocation: data.priceLocation,
+				userId:req.session.userId
 			});
 			//Check The docuement is Valid or not
 			newIngredient.validate(function (err) {
@@ -87,7 +88,8 @@ module.exports = {
 				keywords: data.keywords.split(","),
 				weight: data.weight,
 				image: data.image,
-				priceLocation: data.priceLocation
+				priceLocation: data.priceLocation,
+				userId:req.session.userId
 			});
 			obj.status = "Invalid"
 			obj.statusCode = 400
@@ -135,6 +137,7 @@ module.exports = {
 	},
 	updateDocument: function (query, newValue, res) {
 		var obj = new Response();
+		newValue.userId=req.session.userId
 		ingredient.findOneAndUpdate(query, newValue, { runValidators: true },
 			function (err, doc) {
 				obj.status = "valid";

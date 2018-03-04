@@ -20,6 +20,7 @@ module.exports = {
 			language: data.language,
 			role: data.role,
 			address: data.address,
+			userId: req.session.userId
 		});
 		var obj = new Response();
 		newUser.save(function (err) {
@@ -67,8 +68,9 @@ module.exports = {
 		});
 
 	},
-	updateUser: function (query, data, res) {
+	updateUser: function (query, newValue, res) {
 		var obj = new Response();
+		newValue.userId = req.session.userId
 		User.findOneAndUpdate(query, data, { runValidators: true },
 			function (err, doc) {
 				obj.status = "Valid";
@@ -85,38 +87,50 @@ module.exports = {
 
 	},
 	checkLogin: (req, res) => {
-		
+
 		var email = req.body.email;
 		var password = req.body.password;
-		User.find({ "email": { '$regex': email+""}, "password": password }, (err, data) => {
+		User.find({ "email": { '$regex': email + "" }, "password": password }, (err, data) => {
 			console.log(data)
 			if (err) {
-			
-			//	res.send({ status: "Invalid", message: err })
 
-				handler({ status: "Invalid", message: "Sorry Internel Server Error Occur","statusCode":401},res)
+				//	res.send({ status: "Invalid", message: err })
+
+				handler({ status: "Invalid", message: "Sorry Internel Server Error Occur", "statusCode": 401 }, res)
 			}
 			else if (data.length == 0) {
 				res.status(401)
-				handler({ status: "Invalid", message: "Sorry Invalid email or password","statusCode":401},res)
+				handler({ status: "Invalid", message: "Sorry Invalid email or password", "statusCode": 401 }, res)
 			}
-			else if(data[0].role=="Admin"){
+			else if (data[0].role == "Admin") {
 				res.status(200)
-			
-				req.session.userId=data[0]._id
-				req.session.role=data[0].role
-				handler({ status: "Valid", message: "Login Successfully" ,"statusCode":200},res)
+
+				req.session.userId = data[0]._id
+				req.session.role = data[0].role
+				handler({ status: "Valid", message: "Login Successfully", "statusCode": 200 }, res)
 			}
-			else{
-				handler({ status: "Valid", message: "You don't have enough access contact adminstrator for access" ,"statusCode":401},res)
+			else {
+				handler({ status: "Valid", message: "You don't have enough access contact adminstrator for access", "statusCode": 401 }, res)
 			}
 		})
 	},
-	getLogedUser:(req,res)=>{
-		var _id=req.session.userId
-		User.findById({"_id":_id},'name email',function(err,user){
-			handler({"status":"Valid",data:user,statusCode:200},res)
+	getLogedUser: (req, res) => {
+		var _id = req.session.userId
+		User.findById({ "_id": _id }, 'name email', function (err, user) {
+			handler({ "status": "Valid", data: user, statusCode: 200 }, res)
 		});
+	},
+	logout: (req, res) => {
+		req.session.destroy((err) => {
+			if (err) {
+				res.status(400)
+				res.end()
+			}
+			else {
+				res.status(200)
+				res.end()
+			}
+		})
 	}
 }
 function setError(err) {
