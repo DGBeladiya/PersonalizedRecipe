@@ -8,7 +8,7 @@ function Response() {
 }
 var handler = require("./handler");
 module.exports = {
-	createUser: function (data, res) {
+	createUser: function (data, res,req) {
 		var newUser = new User({
 			name: data.name,
 			password: data.password,
@@ -37,7 +37,7 @@ module.exports = {
 		});
 
 	},
-	getDataAll: function (query, res) {
+	getDataAll: function (query, res,req) {
 		var obj = new Response();
 		User.find(query, function (err, data) {
 			var obj = new Response();
@@ -53,7 +53,7 @@ module.exports = {
 		});
 
 	},
-	deleteUser: function (query, res) {
+	deleteUser: function (query, res,req) {
 		var obj = new Response();
 		User.remove(query, function (err) {
 
@@ -68,7 +68,7 @@ module.exports = {
 		});
 
 	},
-	updateUser: function (query, newValue, res) {
+	updateUser: function (query, newValue, res,req) {
 		var obj = new Response();
 		newValue.userId = req.session.userId
 		User.findOneAndUpdate(query, data, { runValidators: true },
