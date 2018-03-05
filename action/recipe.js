@@ -122,6 +122,21 @@ module.exports = {
             }
             handler(obj, res);
         });
+    },
+    getUnApproveCount: (req, res) => {
+
+        Recipe.count({ isApproved: false }, (err, count) => {
+            var response = new Response()
+            if (err) {
+                response.statusCode = 400;
+                reponse.status = "Invalid";
+            } else {
+                response.statusCode=200;
+                response.data.unApproveCount=count;
+                response.status="Valid";
+            }
+            handler(response,res);
+        })
     }
 }
 function setError(err) {

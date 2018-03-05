@@ -13,6 +13,11 @@ router.get("/", (req, res) => {
     res.set("Content-Type", "application/json");
     action.getDataAll({}, res);
 });
+
+router.get("/getUnApproveCount", (req, res) => {
+    res.set("Content-Type", "application/json");
+    action.getUnApproveCount(req, res);
+})
 router.put("/", (req, res) => {
     var query = {}
     if (req.body.query)
