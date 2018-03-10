@@ -17,6 +17,8 @@ app.use(bodyParser.json({}))
 var ingredientRouter = require("./router/ingredientRouter.js");
 var userRouter = require("./router/userRouter.js");
 var recipeRouter = require("./router/recipeRouter.js");
+var apiRouterV1=require("./router/apiRouterV1.js")
+app.use("/api/v1",apiRouterV1)
 app.all("/", function (req, res) {
 
     if (req.session.userId) {
