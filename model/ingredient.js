@@ -4,12 +4,13 @@ var ingredientSchema=db.Schema({
 		type:String,
 		required:[true,"Ingredient Name cannot be Empty"],
 		trim:true,
-		match:[/^[a-zA-Z]+$/,"'{VALUE}' is Not a Valid Value for Name"]
+		match:[/^[a-zA-Z _]+$/,"'{VALUE}' is Not a Valid Value for Name"]
 	},
 	keywords:{
 		type:[String],
 		validate:[check,"'{VALUE}' Keywords Contain Invalid Value"]
 	},
+	
 	price:{
 		type:String,
 		required:[true,"Ingredient price cannot be Empty"],
