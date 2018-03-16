@@ -32,7 +32,7 @@ var recipeSchema = db.Schema({
     },
     isApproved: {
         type: Boolean,
-        default: false
+        default: true
     },
     isActive: {
         type: Boolean,
@@ -52,6 +52,7 @@ var recipeSchema = db.Schema({
         {
             name: { type: String },
             weight: { type: String },
+            unit:{type:String},
             required: { type: Boolean }
         }
     ],
