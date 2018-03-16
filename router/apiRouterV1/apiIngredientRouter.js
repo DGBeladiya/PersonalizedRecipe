@@ -12,7 +12,7 @@ function Response() {
 router.get("/ListbyKeywords/:key", (req, res) => {
     var key = req.params.key;
     console.log(key)
-    ingredient.find({ "name":{ $regex: '.*' + key + '.*' } } ,"name image",
+    ingredient.find({} ,"name image keywords",
      (err, docs) => {
         res.send(docs)
     }).limit(4)
