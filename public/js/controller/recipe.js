@@ -1,35 +1,38 @@
-angular.module("PRApp").controller("recipeController", function ($base64,$scope,$timeout,recipeService) {
+angular.module("PRApp").controller("recipeController", function ($base64, $scope, $timeout, recipeService) {
     $scope.recipe = {
         name: "", description: "", cost: "", time: "", noOfPerson: "",
         ageCategory: { min: "", max: "" }, category: ""
     }
-    $scope.ingredient = { name: "", weight: "", isRequired: false }
+    $scope.ingredient = { name: "", weight: "", unit: "", isRequired: false }
     $scope.ingredients = []
+    $scope.categoryList = []
     $scope.steps = []
     $scope.image;
-    $scope.step = { description: "", isAlarm: false, time: "",stepImage:"" }
+    $scope.step = { description: "", isAlarm: false, time: "", stepImage: "" }
+    recipeService.getCategoryName().then((answer) => { console.log(answer.data);$scope.categoryList = answer.data },
+        (error) => { })
     $scope.addIngredient = () => {
 
-        $scope.ingredients.push({ name: $scope.ingredient.name, weight: $scope.ingredient.weight, isRequired: $scope.ingredient.isRequired });
+        $scope.ingredients.push({ unit: $scope.ingredient.unit, name: $scope.ingredient.name, weight: $scope.ingredient.weight, isRequired: $scope.ingredient.isRequired });
         //console.log({name:$scope.ingredient.name,weight:$scope.ingredient.weight,isRequired:$scope.ingredient.isRequired})
-        $scope.ingredient = { name: "", weight: "", isRequired: false }
+        $scope.ingredient = { unit: "", name: "", weight: "", isRequired: false }
     }
     $scope.removeIngredient = (index) => { $scope.ingredients.splice(index, 1) }
     $scope.addStep = () => {
-        $scope.steps.push({ stepImage:$scope.image,description: $scope.step.description, isAlarm: $scope.step.isAlarm, time: $scope.step.time })
-        $scope.step = { description: "", isAlarm: false, time: "",stepImage:"" }
-       // var imageData=$base64.encode($scope.stepImage);
-    
+        $scope.steps.push({ stepImage: $scope.image, description: $scope.step.description, isAlarm: $scope.step.isAlarm, time: $scope.step.time })
+        $scope.step = { description: "", isAlarm: false, time: "", stepImage: "" }
+        // var imageData=$base64.encode($scope.stepImage);
+
     }
     $scope.removeStep = (index) => {
         $scope.steps.splice(index, 1)
     }
-    $scope.getData=()=>{
+    $scope.getData = () => {
         recipeService.getData()
     }
     $scope.createRecipe = () => {
         var formData = new FormData();
-       
+
         formData.append("image", $scope.imageRecipe)
         formData.append("name", $scope.recipe.name)
         formData.append("description", $scope.recipe.description)
