@@ -1,4 +1,4 @@
-var action = require("../action/ingredient");
+var action = require("../action/category");
 var bodyParser = require("body-parser");
 
 var express = require("express");

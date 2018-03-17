@@ -81,7 +81,8 @@ app.config(function ($routeProvider) {
 		.when("/dashboard", { templateUrl: "pages/uitility/dashboardUtility.html" })
 		.when("/AUIngredients", { templateUrl: "pages/Ingredients/AUIngredients.html" })
 		.when("/User", { templateUrl: "pages/User/User.html" })
-		.when("/Recipe", { templateUrl: "pages/Recipe/Recipe.html" });
+		.when("/Recipe", { templateUrl: "pages/Recipe/Recipe.html" })
+		.when("/Category", { templateUrl: "pages/Category/category.html" });
 });
 app.directive('fileModel', ['$parse', function ($parse) {
 	return {

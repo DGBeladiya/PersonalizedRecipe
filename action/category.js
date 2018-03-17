@@ -1,4 +1,4 @@
-var ingredient = require("../model/ingredient.js");
+var category = require("../model/category.js");
 //Resposne Model
 function Response() {
 	this.status = "";
@@ -15,10 +15,10 @@ var path = require("path");
 //setting up the storage option
 var storage = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, "upload/ingredient/")
+		callback(null, "upload/category/")
 	},
 	filename: (req, file, callback) => {
-		callback(null, "Ingredient" + '_' + Date.now() + path.extname(file.originalname))
+		callback(null, "Category" + '_' + Date.now() + path.extname(file.originalname))
 	}
 });
 //upload Functions
@@ -26,7 +26,7 @@ var upload = multer({
 	fileFilter: function (req, file, callback) {
 		var ext = path.extname(file.originalname);
 
-		if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.ico') {
+		if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg'&& ext !== '.ico') {
 			return callback('Only images are allowed', false)
 		}
 		callback(null, true)
@@ -55,17 +55,13 @@ module.exports = {
 			if (data.image == "undefined")
 				data.image = "";
 			//Prepare object for Document Creation
-			var newIngredient = new ingredient({
+			var newCategory = new category({
 				name: data.name,
-				price: data.price,
-				keywords: data.keywords.split(","),
-				weight: data.weight,
 				image: data.image,
-				priceLocation: data.priceLocation,
 				userId: req.session.userId
 			});
 			//Check The docuement is Valid or not
-			newIngredient.validate(function (err) {
+			newCategory.validate(function (err) {
 				var obj = new Response();
 				if (err) {
 					obj.status = "Invalid"
@@ -74,7 +70,7 @@ module.exports = {
 					obj.errors = setError(err);
 				}
 				else {
-					newIngredient.save(function (err) { });
+					newCategory.save(function (err) { });
 					obj.successMessage = "Data Saved!";
 					obj.statusCode = 201;
 				}
@@ -82,18 +78,14 @@ module.exports = {
 			});
 		}, (err) => {
 			data = err.data
-			var newIngredient = new ingredient({
+			var newCategory = new category({
 				name: data.name,
-				price: data.price,
-				keywords: data.keywords.split(","),
-				weight: data.weight,
 				image: data.image,
-				priceLocation: data.priceLocation,
 				userId: req.session.userId
 			});
 			obj.status = "Invalid"
 			obj.statusCode = 400
-			newIngredient.validate(function (e) {
+			newCategory.validate(function (e) {
 				if (e) {
 					obj.errors = setError(e);
 				}
@@ -106,7 +98,22 @@ module.exports = {
 	},
 	getDataAll: function (query, res) {
 		var obj = new Response();
-		ingredient.find(query, function (err, doc) {
+		category.find(query, function (err, doc) {
+			if (err) {
+				obj.status = "Invalid";
+				obj.statusCode = 400;
+			}
+			else {
+				obj.status = "Valid";
+				obj.data = doc;
+				obj.statusCode = 200;
+			}
+			handler(obj, res);
+		});
+	},
+	getCategoryName: function (query, res) {
+		var obj = new Response();
+		category.find(query, "name", function (err, doc) {
 			if (err) {
 				obj.status = "Invalid";
 				obj.statusCode = 400;
@@ -121,7 +128,7 @@ module.exports = {
 	},
 	deleteDocument: function (query, res) {
 		var obj = new Response();
-		ingredient.remove(query, function (err) {
+		category.remove(query, function (err) {
 
 			if (err) {
 				obj.status = "Invalid";
@@ -138,7 +145,7 @@ module.exports = {
 	updateDocument: function (query, newValue, res,req) {
 		var obj = new Response();
 		newValue.userId = req.session.userId
-		ingredient.findOneAndUpdate(query, newValue, { runValidators: true },
+		category.findOneAndUpdate(query, newValue, { runValidators: true },
 			function (err, doc) {
 				obj.status = "valid";
 
@@ -153,25 +160,12 @@ module.exports = {
 				}
 				handler(obj, res);
 			});
-
 	}
 }
-
 function setError(err) {
 	errors = new Object;
-
-
 	if (err.errors["name"]) {
 		errors.name = err.errors["name"].message;
-	}
-	if (err.errors["keywords"]) {
-		errors.keywords = err.errors["keywords"].message;
-	}
-	if (err.errors["price"]) {
-		errors.price = err.errors["price"].message;
-	}
-	if (err.errors["weight"]) {
-		errors.weight = err.errors["weight"].message;
 	}
 	return errors;
 }
