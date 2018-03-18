@@ -9,7 +9,7 @@ angular.module("PRApp").controller("recipeController", function ($base64, $scope
     $scope.steps = []
     $scope.image;
     $scope.step = { description: "", isAlarm: false, time: "", stepImage: "" }
-    recipeService.getCategoryName().then((answer) => { console.log(answer.data);$scope.categoryList = answer.data },
+    recipeService.getCategoryName().then((answer) => { console.log(answer.data); $scope.categoryList = answer.data },
         (error) => { })
     $scope.addIngredient = () => {
 
@@ -19,7 +19,16 @@ angular.module("PRApp").controller("recipeController", function ($base64, $scope
     }
     $scope.removeIngredient = (index) => { $scope.ingredients.splice(index, 1) }
     $scope.addStep = () => {
-        $scope.steps.push({ stepImage: $scope.image, description: $scope.step.description, isAlarm: $scope.step.isAlarm, time: $scope.step.time })
+        var timeInMinutes = $scope.step.time.split(":")
+        var inSeconds = 0;
+        if (timeInMinutes[0]) {
+            inSeconds += parseInt(timeInMinutes[0]) * 60;
+
+        }
+        if (timeInMinutes[1]) {
+            inSeconds += parseInt(timeInMinutes[1])
+        }
+        $scope.steps.push({ stepImage: $scope.image, description: $scope.step.description, isAlarm: $scope.step.isAlarm, time: inSeconds })
         $scope.step = { description: "", isAlarm: false, time: "", stepImage: "" }
         // var imageData=$base64.encode($scope.stepImage);
 
@@ -32,14 +41,22 @@ angular.module("PRApp").controller("recipeController", function ($base64, $scope
     }
     $scope.createRecipe = () => {
         var formData = new FormData();
+        var timeInMinutes = $scope.recipe.time.split(":")
+        var inSeconds = 0;
+        if (timeInMinutes[0]) {
+            inSeconds += parseInt(timeInMinutes[0]) * 60;
 
+        }
+        if (timeInMinutes[1]) {
+            inSeconds += parseInt(timeInMinutes[1])
+        }
         formData.append("image", $scope.imageRecipe)
         formData.append("name", $scope.recipe.name)
         formData.append("description", $scope.recipe.description)
         formData.append("cost", $scope.recipe.cost)
         formData.append("category", $scope.recipe.category)
         formData.append("ageCategory", $scope.recipe.ageCategory)
-        formData.append("time", $scope.recipe.time)
+        formData.append("time", inSeconds)
         formData.append("noOfPerson", $scope.recipe.noOfPerson)
         formData.append("ingredient", JSON.stringify($scope.ingredients))
         formData.append("step", JSON.stringify($scope.steps))
