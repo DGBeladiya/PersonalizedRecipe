@@ -9,14 +9,11 @@ function Response() {
         this.statusCode = 0;
 }
 
-router.get("/ListbyKeywords/:key", (req, res) => {
-    var key = req.params.key;
-   
-    ingredient.find({} ,
+router.get("/ListbyKeywords", (req, res) => {
+  
+    ingredient.find({} ,"name image keywords",
      (err, docs) => {
         res.send(docs)
     })
-
-    
 })
 module.exports = router;

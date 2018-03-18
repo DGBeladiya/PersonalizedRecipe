@@ -5,7 +5,7 @@ var recipeSchema = db.Schema({
     name: {
         type: "String",
         required: [true, "Recipe name can't be Empty"],
-        match: [/^[a-zA-Z]+$/, "'{VALUE}' is not valid Value for Recipe Name"],
+        match: [/^[a-zA-Z _]+$/, "'{VALUE}' is not valid Value for Recipe Name"],
         trim: true
     },
     description: {

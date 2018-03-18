@@ -67,7 +67,7 @@ module.exports = {
                 delete stepsImage[i].stepImage
 
             }
-
+console.log(data.ingredient)
             var newRecipe = new Recipe({
                 name: data.name,
                 description: data.description,
