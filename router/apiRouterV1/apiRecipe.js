@@ -14,15 +14,10 @@ function Response() {
 
 router.post("/ListbyIngredient", jsonParser,(req, res) => {
   var ingrdeint=req.body.ingrdeint
-
-    for(var i=0;i<ingrdeint.length;i++)
-    {
-        ingrdeint[i]=ingrdeint[i]+"";
-        console.log(typeof ingrdeint[i])
-    }
-   
-      console.log(ingrdeint)
-    recipe.find({"ingredients.name":{$in:ingrdeint}} ,"name image category",
+var data=["Brinjal"]
+   console.log(data)
+      //console.log(ingrdeint)
+    recipe.find({"ingredients.name":{$in:data}} ,"name image category",
      (err, docs) => {
         res.send(docs)
     })
