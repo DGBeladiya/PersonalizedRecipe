@@ -22,7 +22,7 @@ var recipeSchema = db.Schema({
         match: [/^[0-9]+$/, "'{VALUE}' is not valid value for cost"]
     },
     time: {
-        type: String
+        type: Number
     },
     noOfPerson: {
         type: Number,
@@ -58,7 +58,7 @@ var recipeSchema = db.Schema({
     ],
     steps: [{
         description: { type: String },
-        time: { type: String },
+        time: { type: Number },
         isAlarm: { type: Boolean },
         image: { type: String ,default:"Default.png"}
     }],
