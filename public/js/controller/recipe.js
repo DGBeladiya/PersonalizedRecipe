@@ -50,11 +50,12 @@ angular.module("PRApp").controller("recipeController", function ($base64, $scope
         if (timeInMinutes[1]) {
             inSeconds += parseInt(timeInMinutes[1])
         }
+        
         formData.append("image", $scope.imageRecipe)
         formData.append("name", $scope.recipe.name)
         formData.append("description", $scope.recipe.description)
         formData.append("cost", $scope.recipe.cost)
-        formData.append("category", $scope.recipe.category)
+        formData.append("category", $scope.recipe.category.name)
         formData.append("ageCategory", $scope.recipe.ageCategory)
         formData.append("time", inSeconds)
         formData.append("noOfPerson", $scope.recipe.noOfPerson)
