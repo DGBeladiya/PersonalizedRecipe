@@ -13,7 +13,7 @@ function Response() {
 }
 
 router.post("/ListbyIngredient", jsonParser,(req, res) => {
-  var ingrdeint=req.body.ingrdeint
+  var ingrdeint=JSON.parse(req.body.ingrdeint)
 var data=["Brinjal"]
  
      console.log(ingrdeint)
