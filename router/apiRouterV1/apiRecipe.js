@@ -12,9 +12,9 @@ function Response() {
         this.statusCode = 0;
 }
 
-router.get("/ListbyIngredient", (req, res) => {
+router.post("/ListbyIngredient", (req, res) => {
   var ingrdeint=req.body.ingrdeint
-    recipe.find({"ingredients.name":{$in:["Brinjal"]}} ,"name image category",
+    recipe.find({"ingredients.name":{$in:ingrdeint}} ,"name image category",
      (err, docs) => {
         res.send(docs)
     })
