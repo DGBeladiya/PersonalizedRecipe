@@ -20,6 +20,7 @@ var recipeRouter = require("./router/recipeRouter.js");
 var apiRouterV1 = require("./router/apiRouterV1.js")
 var importRouter = require("./router/recipeImportRouter.js")
 var categoryRouter = require("./router/categoryRouter.js");
+var videoRouter=require("./router/videoRouter.js");
 app.use("/api/v1", apiRouterV1)
 app.all("/", function (req, res) {
 
@@ -36,6 +37,7 @@ app.use("/category", categoryRouter);
 app.use("/user", userRouter);
 app.use("/recipe", recipeRouter);
 app.use("/import/recipe", importRouter)
+app.use("/video",videoRouter);
 app.listen(8080, () => {
-    console.log("server started ");
+    console.log("server started");
 });
