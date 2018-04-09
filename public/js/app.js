@@ -83,7 +83,7 @@ app.config(function ($routeProvider) {
 		.when("/User", { templateUrl: "pages/User/User.html" })
 		.when("/Recipe", { templateUrl: "pages/Recipe/Recipe.html" })
 		.when("/Category", { templateUrl: "pages/Category/category.html" })
-		.when("/Video", { templateUrl: "pages/Video/Video.html" });
+		.when("/Video", { templateUrl: "pages/video/Video.html" });
 });
 app.directive('fileModel', ['$parse', function ($parse) {
 	return {
