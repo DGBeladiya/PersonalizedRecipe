@@ -102,16 +102,15 @@ module.exports = {
 				res.status(401)
 				handler({ status: "Invalid", message: "Sorry Invalid email or password", "statusCode": 401 }, res)
 			}
-			else if (data[0].role == "Admin") {
+			else  {
 				res.status(200)
 
 				req.session.userId = data[0]._id
 				req.session.role = data[0].role
-				handler({ status: "Valid", message: "Login Successfully", "statusCode": 200 }, res)
+				handler({ info:data,status: "Valid", message: "Login Successfully", "statusCode": 200 }, res)
 			}
-			else {
-				handler({ status: "Valid", message: "You don't have enough access contact adminstrator for access", "statusCode": 401 }, res)
-			}
+
+			
 		})
 	},
 	getLogedUser: (req, res) => {
