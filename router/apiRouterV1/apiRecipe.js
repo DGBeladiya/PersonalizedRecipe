@@ -36,6 +36,18 @@ router.post("/ListbyCategory", jsonParser, (req, res) => {
         res.send(docs)
     });
 })
+
+router.get("/ListTopFive", jsonParser, (req, res) => {
+
+
+    recipe.aggregate([ 
+    { $project: { name: true, image: true, category: true, time: true, rating: { $avg: "$review.rating" } } }
+    ,{ $sort: { rating: -1 } },{ $limit: 5 }], (err, docs) => {
+        res.send(docs)
+    }).limit(5);
+})
+
+
 router.post("/GetRecipeInformation", jsonParser, (req, res) => {
     var _id = req.body._id;
 

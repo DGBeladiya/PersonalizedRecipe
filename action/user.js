@@ -19,7 +19,7 @@ module.exports = {
 			dateOfBirth: data.dateOfBirth,
 			language: data.language,
 			role: data.role,
-			address: data.address,
+			address: JSON.parse(data.address),
 			userId: req.session.userId
 		});
 		var obj = new Response();
@@ -108,9 +108,7 @@ module.exports = {
 				req.session.userId = data[0]._id
 				req.session.role = data[0].role
 				handler({ info:data,status: "Valid", message: "Login Successfully", "statusCode": 200 }, res)
-			}
-
-			
+			}	
 		})
 	},
 	getLogedUser: (req, res) => {
