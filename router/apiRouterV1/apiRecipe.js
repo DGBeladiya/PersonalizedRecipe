@@ -2,7 +2,7 @@ var express = require("express")
 var router = express.Router();
 var recipe = require("../../model/recipe.js")
 var bodyParser = require("body-parser")
-var db=require("mongoose")
+var db = require("mongoose")
 var jsonParser = bodyParser.json();
 var urlEncoded = bodyParser.urlencoded({ extended: false })
 function Response() {
@@ -14,7 +14,13 @@ function Response() {
 }
 router.post("/ListbyIngredient", jsonParser, (req, res) => {
     var data = req.body.ingrdeint
-
+    /*for (var i = 0; i < data.length; i++) {
+        data[i] = new RegExp("/^" + data[i] + "$/i");
+    }
+    */
+    data = data.map(function (v, i) {
+        return new RegExp(v, 'i');
+    });
     recipe.aggregate([{ $match: { "ingredients.name": { $in: data } } },
     { $project: { name: true, image: true, category: true, time: true, rating: { $avg: "$review.rating" } } }
     ], (err, docs) => {
@@ -34,7 +40,7 @@ router.post("/GetRecipeInformation", jsonParser, (req, res) => {
     var _id = req.body._id;
 
     recipe.aggregate([{ $match: { "_id": db.Types.ObjectId(_id) } },
-    { $project: { name: true,description:true,cost:true,noOfPerson:true,ingredients:true, image: true, category: true, time: true, rating: { $avg: "$review.rating" } } }
+    { $project: { name: true, description: true, cost: true, noOfPerson: true, ingredients: true, image: true, category: true, time: true, rating: { $avg: "$review.rating" } } }
     ], (err, docs) => {
         res.send(docs)
     });
