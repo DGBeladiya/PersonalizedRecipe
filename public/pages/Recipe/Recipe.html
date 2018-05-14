@@ -104,10 +104,14 @@
                                     <label class="form-label">Maximum Age Categoty</label>
                                 </div>
                             </div>
+                           
+                            <br/>
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="ingredientName" ng-model="ingredient.name" class="form-control">
-                                    <label class="form-label">Ingredient Name</label>
+                                    <angucomplete id="ex1" placeholder="Ingredient Name" pause="100" selectedobject="selectedIngredient" localdata="ingredientList"
+                                    searchfields="name" titlefield="name" minlength="1" inputclass="form-control form-control-small"
+                                    matchclass="highlight" />
+                                   
                                 </div>
                                 <br/>
                                 <div class="form-line">

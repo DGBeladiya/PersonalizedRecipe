@@ -1,4 +1,4 @@
-angular.module("PRApp").controller("recipeController", function ($base64, $scope, $timeout, recipeService) {
+angular.module("PRApp").controller("recipeController", function (ingredientService, $base64, $scope, $timeout, recipeService) {
     $scope.recipe = {
         name: "", description: "", cost: "", time: "", noOfPerson: "",
         ageCategory: { min: "", max: "" }, category: ""
@@ -8,12 +8,27 @@ angular.module("PRApp").controller("recipeController", function ($base64, $scope
     $scope.categoryList = []
     $scope.steps = []
     $scope.image;
+    $scope.ingredientList = [];
+    ingredientService.getList().then((result) => {
+        var data=result.data;
+        for(var i=0;i<data.length;i++)
+        {
+
+            var name=data[i].name+" - "+data[i].keywords.join();
+            var code=data[i].name;
+            $scope.ingredientList.push({name:name,code:code});
+        }
+    }, (error) => {
+
+    });
+
+
     $scope.step = { description: "", isAlarm: false, time: "", stepImage: "" }
     recipeService.getCategoryName().then((answer) => { console.log(answer.data); $scope.categoryList = answer.data },
         (error) => { })
     $scope.addIngredient = () => {
 
-        $scope.ingredients.push({ unit: $scope.ingredient.unit, name: $scope.ingredient.name, weight: $scope.ingredient.weight, isRequired: $scope.ingredient.isRequired });
+        $scope.ingredients.push({ unit: $scope.ingredient.unit, name: $scope.selectedIngredient.originalObject.code, weight: $scope.ingredient.weight, isRequired: $scope.ingredient.isRequired });
         //console.log({name:$scope.ingredient.name,weight:$scope.ingredient.weight,isRequired:$scope.ingredient.isRequired})
         $scope.ingredient = { unit: "", name: "", weight: "", isRequired: false }
     }
@@ -50,7 +65,7 @@ angular.module("PRApp").controller("recipeController", function ($base64, $scope
         if (timeInMinutes[1]) {
             inSeconds += parseInt(timeInMinutes[1])
         }
-        
+
         formData.append("image", $scope.imageRecipe)
         formData.append("name", $scope.recipe.name)
         formData.append("description", $scope.recipe.description)

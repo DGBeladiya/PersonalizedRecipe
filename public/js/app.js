@@ -1,4 +1,4 @@
-var app = angular.module("PRApp", ["ngRoute", "base64",'datatables', 'datatables.buttons', 'monospaced.elastic']);
+var app = angular.module("PRApp", ["angucomplete","ngRoute", "base64",'datatables', 'datatables.buttons', 'monospaced.elastic']);
 app.directive('imgUpload', ['$rootScope',function (rootScope) {
 	return {
 	  restrict: 'A',
